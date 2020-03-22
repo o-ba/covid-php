@@ -20,10 +20,12 @@ require 'vendor/autoload.php';
 
 ## Usage
 
-Create a instance of the API wrapper:
+Create a instance of the API wrapper first:
 ```
 $covidApi = new \Bo\CovidPHP\CovidApi();
 ```
+
+### Examples
 
 Get the latest global amount of total confirmed cases, deaths and recoveries:
 ```
@@ -35,20 +37,31 @@ Get all locations:
 $covidApi->getAllLocations();
 ```
 
+Get all locations including timelines:
+```
+$covidApi->getAllLocations(true);
+```
+
 Get location data by country code:
 ```
-$covidApi->findByCountryCode('DE'); // Returns location data for germany
+$covidApi->findByCountryCode('DE');
+```
+
+Get location data by country code from ``csbs`` as source:
+```
+$covidApi->findByCountryCode('US', false, 'csbs');
 ```
 
 Get location data for a specific location:
 ```
-$covidApi->findByLocation(11); // Returns location data for germany
+$covidApi->findByLocation(11);
 ```
 
 ## Note
 - Setting ``$includeTimelines`` adds timeline data to the response
 - Setting ``$source`` let's you specify which source the data should be fetched from (default: ``jhu``)
-- All responses will be decoded and returned as ``array``.
+- The mentioned parameters are available for all methods except ``CovidApi::getLatest()``
+- All responses will be decoded and returned as ``array``
 
 ## License
 
