@@ -1,0 +1,31 @@
+{
+  "name": "o-ba/covid-php",
+  "description": "CovidPHP is a PHP API wrapper for the coronavirus tracking API",
+  "keywords": [
+    "covid-19",
+    "api",
+    "tracking"
+  ],
+  "type": "library",
+  "license": "MIT",
+  "version": "1.0.0",
+  "authors": [
+    {
+      "name": "Oliver Bartsch",
+      "email": "bo@cedev.de"
+    }
+  ],
+  "require": {
+    "php": ">=7.2.0",
+    "ext-json": "*",
+    "guzzlehttp/guzzle": "^6.5"
+  },
+  "require-dev": {
+    "roave/security-advisories": "dev-master"
+  },
+  "autoload": {
+    "psr-4": {
+      "Bo\\CovidPHP\\": "src/"
+    }
+  }
+}
