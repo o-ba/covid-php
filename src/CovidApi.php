@@ -36,40 +36,38 @@ class CovidApi
 
     public function getAllLocations(bool $includeTimelines = false, string $source = ''): array
     {
-        return $this->request('locations' . $this->getAdditionalParameters($includeTimelines, $source));
+        return $this->request('locations', $this->getQueryParameters($includeTimelines, $source));
     }
 
     public function findByCountryCode(string $countryCode, bool $includeTimelines = false, string $source = ''): array
     {
-        return $this->request('locations' . $this->getAdditionalParameters($includeTimelines, $source, $countryCode));
+        return $this->request('locations', $this->getQueryParameters($includeTimelines, $source, $countryCode));
     }
 
     public function findByLocation(int $locationId, bool $includeTimelines = false, string $source = ''): array
     {
-        return $this->request('locations/' . $locationId . $this->getAdditionalParameters($includeTimelines, $source));
+        return $this->request('locations/' . $locationId,  $this->getQueryParameters($includeTimelines, $source));
     }
 
-    protected function getAdditionalParameters(
+    protected function getQueryParameters(
         bool $includeTimelines = false,
         string $source = '',
         string $countryCode = ''
-    ): string {
-        $additionalParameters = [];
-
-        if ($countryCode !== '') {
-            $additionalParameters[] = 'country_code=' . \strtoupper(\substr(\trim($countryCode), 0, 2));
-        }
-
-        $additionalParameters[] = 'timelines=' . (int)$includeTimelines;
+    ): array {
+        $queryParameters['timelines'] = $includeTimelines;
 
         if ($source !== '' && \in_array($source, static::AVAILABLE_SOURCES, true)) {
-            $additionalParameters[] = 'source=' . $source;
+            $queryParameters['source'] = $source;
         }
 
-        return $additionalParameters !== [] ? '?' . \implode('&', $additionalParameters) : '';
+        if ($countryCode !== '') {
+            $queryParameters['country_code'] = \strtoupper(\substr(\trim($countryCode), 0, 2));
+        }
+
+        return ['query' => $queryParameters];
     }
 
-    protected function request(string $uri): array
+    protected function request(string $uri, array $options = []): array
     {
         $client = new Client([
             'base_uri' => $this->endpoint,
@@ -77,7 +75,7 @@ class CovidApi
         ]);
 
         try {
-            $response = $client->request('GET', $uri);
+            $response = $client->request('GET', $uri, $options);
         } catch (GuzzleException $e) {
             return [];
         }
