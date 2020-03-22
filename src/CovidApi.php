@@ -57,7 +57,7 @@ class CovidApi
         $additionalParameters = [];
 
         if ($countryCode !== '') {
-            $additionalParameters[] = 'country_code=' . \strtoupper(\trim($countryCode));
+            $additionalParameters[] = 'country_code=' . \strtoupper(\substr(\trim($countryCode), 0, 2));
         }
 
         $additionalParameters[] = 'timelines=' . (int)$includeTimelines;
