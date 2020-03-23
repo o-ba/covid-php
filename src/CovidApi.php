@@ -20,10 +20,10 @@ class CovidApi
     /** @var string */
     protected $endpoint = '';
 
-    /** @var int */
+    /** @var float */
     protected $timeout;
 
-    public function __construct(string $endpoint = '', int $timeout = 20)
+    public function __construct(string $endpoint = '', float $timeout = 5.0)
     {
         $this->endpoint = $endpoint ?: static::ENDPOINT;
         $this->timeout = $timeout;
