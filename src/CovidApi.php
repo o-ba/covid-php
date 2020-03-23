@@ -15,7 +15,6 @@ use GuzzleHttp\Exception\GuzzleException;
 class CovidApi
 {
     private const ENDPOINT = 'https://coronavirus-tracker-api.herokuapp.com/v2/';
-    private const AVAILABLE_SOURCES = ['jhu', 'csbs'];
 
     /** @var string */
     protected $endpoint = '';
@@ -23,10 +22,22 @@ class CovidApi
     /** @var float */
     protected $timeout;
 
+    /** @var string[] */
+    protected $sources = [];
+
     public function __construct(string $endpoint = '', float $timeout = 5.0)
     {
         $this->endpoint = $endpoint ?: static::ENDPOINT;
         $this->timeout = $timeout;
+    }
+
+    public function getSources(): array
+    {
+        if ($this->sources === []) {
+            $this->sources = $this->request('sources')['sources'] ?? [];
+        }
+
+        return $this->sources;
     }
 
     public function getLatest(): array
@@ -46,7 +57,7 @@ class CovidApi
 
     public function findByLocation(int $locationId, bool $includeTimelines = false, string $source = ''): array
     {
-        return $this->request('locations/' . $locationId,  $this->getQueryParameters($includeTimelines, $source));
+        return $this->request('locations/' . $locationId, $this->getQueryParameters($includeTimelines, $source));
     }
 
     protected function getQueryParameters(
@@ -56,7 +67,7 @@ class CovidApi
     ): array {
         $queryParameters['timelines'] = $includeTimelines;
 
-        if ($source !== '' && \in_array($source, static::AVAILABLE_SOURCES, true)) {
+        if ($source !== '' && \in_array($source, $this->getSources(), true)) {
             $queryParameters['source'] = $source;
         }
 

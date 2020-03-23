@@ -27,6 +27,11 @@ $covidApi = new \Bo\CovidPHP\CovidApi();
 
 ### Examples
 
+Get all available sources:
+```
+$covidApi->getSources();
+```
+
 Get the latest global amount of total confirmed cases, deaths and recoveries:
 ```
 $covidApi->getLatest();
@@ -60,7 +65,7 @@ $covidApi->findByLocation(11);
 ## Note
 - Setting ``$includeTimelines`` adds timeline data to the response
 - Setting ``$source`` let's you specify which source the data should be fetched from (default: ``jhu``)
-- The mentioned parameters are available for all methods except ``CovidApi::getLatest()``
+- The mentioned parameters are available for all methods except ``CovidApi::getSources()`` and ``CovidApi::getLatest()``
 - All responses will be decoded and returned as ``array``
 
 ## License
