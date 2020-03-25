@@ -40,9 +40,9 @@ class CovidApi
         return $this->sources;
     }
 
-    public function getLatest(): array
+    public function getLatest(string $source = ''): array
     {
-        return $this->request('latest');
+        return $this->request('latest', $this->getQueryParameters(false, $source));
     }
 
     public function getAllLocations(bool $includeTimelines = false, string $source = ''): array

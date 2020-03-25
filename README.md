@@ -25,6 +25,19 @@ Create a instance of the API wrapper first:
 $covidApi = new \Bo\CovidPHP\CovidApi();
 ```
 
+__Available methods__
+| __Methods__             | __Parameters__                                                                                    | __Description__                                      |
+| ----------------------- | ------------------------------------------------------------------------------------------------- | ---------------------------------------------------- |
+| ``getSources()``        |                                                                                                   | Get all available sources.                           |
+| ``getLatest()``         | ``string $source``                                                                                | Get the latest data summarized.                      |
+| ``getAllLocations()``   | ``bool $includeTimelines`` (optional)<br>``string $source`` (optional)                            | Get all available locations.                         |
+| ``findByCountryCode()`` | ``string $countryCode``<br>``bool $includeTimelines`` (optional)<br>``string $source`` (optional) | Get country specific data based on the country code. |
+| ``findByLocation()``    | ``int $locationId``<br>``bool $includeTimelines`` (optional)<br>``string $source`` (optional)     | Get location specific data based on the location id. |
+
+**Further information**
+- Setting ``$includeTimelines`` adds timeline data to the response
+- Setting ``$source`` let's you specify which source the data should be fetched from (default: ``jhu``)
+
 ### Examples
 
 Get all available sources:
@@ -63,9 +76,6 @@ $covidApi->findByLocation(11);
 ```
 
 ## Note
-- Setting ``$includeTimelines`` adds timeline data to the response
-- Setting ``$source`` let's you specify which source the data should be fetched from (default: ``jhu``)
-- The mentioned parameters are available for all methods except ``CovidApi::getSources()`` and ``CovidApi::getLatest()``
 - All responses will be decoded and returned as ``array``
 
 ## License
